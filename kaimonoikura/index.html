@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/assets/manifest-9f5656cd.json" />
+  <title>🛒買い物いくら🛒</title>
+  <script type="module" crossorigin src="/assets/index-a2969d21.js"></script>
+  <link rel="stylesheet" href="/assets/index-dfe3c4f2.css">
+</head>
+
+<body>
+  <script>
+    // Don't register the service worker
+    // until the page has fully loaded
+    window.addEventListener('load', () => {
+      // Is service worker available?
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').then(() => {
+          console.log('Service worker registered!');
+        }).catch((error) => {
+          console.warn('Error registering service worker:');
+          console.warn(error);
+        });
+      }
+    });
+  </script>
+  <div id="app"></div>
+  
+</body>
+
+</html>
