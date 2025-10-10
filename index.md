@@ -1,6 +1,16 @@
 ---
-# You don't need to edit this file, it's empty on purpose.
-# Edit theme's home layout instead if you wanna make some changes
-# See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: home
+title: Ambiesoft Projects
 ---
+
+# Ambiesoft Projects
+
+Welcome to **Ambiesoft's** homepage!
+
+Here are some of my tools and open-source projects:
+
+- [Project A](./project-a/)
+- [Old Tool](./oldtool/)
+- [External GitHub Projects](https://github.com/ambiesoft?tab=repositories)
+
+Learn more [About me](./about.html).
