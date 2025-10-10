@@ -28,3 +28,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Creating default post
 gem 'thor'
 gem 'stringex'
+gem "webrick"
+gem "rexml"

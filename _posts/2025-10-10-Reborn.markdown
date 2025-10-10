@@ -1,0 +1,9 @@
+---
+layout: post
+title: "Reborn"
+tags:
+ -
+---
+YEARは4桁を、MONTHとDAYは2桁を使用します。MARKUPはファイルで使用している形式を表す拡張子です。
+以下に有効なファイル名の例を示します。
+

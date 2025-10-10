@@ -1,16 +1,18 @@
 ---
 layout: home
-title: Ambiesoft Projects
+title: Ambiesoft
 ---
-
-# Ambiesoft Projects
 
 Welcome to **Ambiesoft's** homepage!
 
-Here are some of my tools and open-source projects:
+## Web apps
+- [EverydayTask](./everydaytask/)
+- [kaimonoikura](./kaimonoikura/)
 
-- [Project A](./project-a/)
+## Native Apps
 - [Old Tool](./oldtool/)
+
+## Dev
 - [External GitHub Projects](https://github.com/ambiesoft?tab=repositories)
 
 Learn more [About me](./about.html).
