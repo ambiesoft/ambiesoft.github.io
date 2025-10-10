@@ -10,7 +10,7 @@ Welcome to **Ambiesoft's** homepage!
 - [kaimonoikura](./kaimonoikura/)
 
 ## Native Apps
-- [Old Tool](./oldtool/)
+- [Dicregate](./dicregate/)
 
 ## Dev
 - [External GitHub Projects](https://github.com/ambiesoft?tab=repositories)
