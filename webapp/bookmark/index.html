@@ -1,0 +1,51 @@
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="style.css">
+<title>bookmark</title>
+
+<body>
+    <div>
+        <p id="divtitle">
+        </p>
+        <button class="c-button" onclick="copyToClipboard()">COPY</button>
+    </div>
+
+    <div>
+        <form method="get" name="theform">
+            <input id="copyTarget" name="bookmark" size="80" value="">
+            <input type="submit" value="Update">
+        </form>
+    </div>
+
+    <script>
+        var title;
+        // OnLoad
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+
+            title = params.get('bookmark');
+            console.log(`title=${title}`);
+            document.title = title;
+            document.getElementById('divtitle').textContent = title;
+            document.getElementById('copyTarget').value = title;
+        });
+
+        // https://www.marorika.com/entry/copy-to-clipboard
+        function copyToClipboard() {
+            // コピー対象をJavaScript上で変数として定義する
+            var copyTarget = document.getElementById("copyTarget");
+            // コピー対象のテキストを選択する
+            copyTarget.select();
+            // 選択しているテキストをクリップボードにコピーする
+            document.execCommand("Copy");
+            // コピーをお知らせする
+            // alert("コピーできました！ : " + copyTarget.value);
+
+            // window.close();
+            // window.open('about:blank','_self').close();
+        }
+    </script>
+</body>
+
+</html>
