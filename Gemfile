@@ -30,3 +30,4 @@ gem 'thor'
 gem 'stringex'
 gem "webrick"
 gem "rexml"
+gem "jekyll-remote-theme"

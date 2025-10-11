@@ -1,5 +1,4 @@
 ---
-layout: page
 title: Dicregate License
 permalink: /dicregate/dicregate_license/
 ---
