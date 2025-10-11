@@ -48,5 +48,5 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 
-include:
-  - assets
+# include:
+#   - assets
