@@ -1,0 +1,37 @@
+---
+layout: page
+title: Dicregate License
+permalink: /dicregate_license/
+---
+
+## ライセンス
+
+シェアウェアです。３０日間の試用期間があります。機能制限はありません。
+利用料金は 1800 円です。
+お支払方法
+[ベクターのシェアレジ](https://www.vector.co.jp/soft/winnt/writing/se476808.html)をご利用ください。
+
+### ライセンスの範囲
+
+１ライセンスで使用できる範囲（下記のどちらか）
+A. 一人が複数台の動作環境で使用
+B. 複数人が一台の動作環境で使用
+
+＊人数や台数が入れ替わる場合は平均的数値分のライセンスが必要
+＊ここでいう動作環境は複数人が同時に使用できない単位のことで通常は一台の動作環境＝１台のパソコン
+
+#領収書の発行について
+作者が金銭を受領できるのは支払人がベクターに支払った月の３ヶ月後の末日なので、
+そのときに領収書を電子メールに添付して発行します。内容は以下です
+
+THIS SOFTWARE IS PROVIDED BY THE PROJECT AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE PROJECT OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
