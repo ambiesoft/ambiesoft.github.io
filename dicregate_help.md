@@ -220,8 +220,8 @@ alert(dicregate.searchWord)
 
 辞書の編集で以下のように設定します：
 
-「URL 前」＝ dicregate://nosearchwordurl
-「URL 後」＝ https://maps.gsi.go.jp/
+> 「URL 前」＝ dicregate://nosearchwordurl  
+> 「URL 後」＝ https://maps.gsi.go.jp/
 
 「イベント」の Javascript:
 
