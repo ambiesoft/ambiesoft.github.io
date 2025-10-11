@@ -26,8 +26,8 @@ github_username: ambiesoft
 
 # Build settings
 markdown: kramdown
-# theme: minima
-theme: jekyll-theme-cayman
+theme: minima
+# theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed
 # Exclude from processing.
@@ -42,5 +42,5 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 
-# include:
-#   - assets
+include:
+  - assets
