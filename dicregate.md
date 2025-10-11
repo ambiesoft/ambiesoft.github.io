@@ -3,7 +3,6 @@ layout: page
 title: Dicregate
 permalink: /dicregate/
 ---
-# Dicregate
 Dicregateは辞書検索ソフトです。ウェブ検索にも対応しています。
 辞書の検索には[EBライブラリ](http://www.sra.co.jp/people/m-kasahr/eb/index.html)を使用しています。
 
@@ -20,7 +19,6 @@ Windows7/8をご利用の方は[Dicregate ver4.40.1](https://1drv.ms/f/c/f0d9ddc
 Windows Vista以下では動作しません。
 
 ## ライセンス
-
 
 ## ダウンロード
 フォルダ
