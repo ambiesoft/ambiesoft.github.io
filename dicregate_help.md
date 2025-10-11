@@ -48,20 +48,21 @@ Dicregate に辞書を設定するには、メニューから「辞書」->「�
 ・英語版のウィキペディアは以下のように設定できます。
 
 名前：英語版ウィキペディア
-URL 前：https://www.wikipedia.org/w/wiki.phtml?search=
-URL 後：
-エンコード：utf-8 : Unicode (UTF-8)
-ルール:デフォルト
-フィルター：^[a-z|A-Z].\*$
+
+> URL 前：https://www.wikipedia.org/w/wiki.phtml?search=  
+> URL 後：  
+> エンコード：utf-8 : Unicode (UTF-8)  
+> ルール:デフォルト  
+> フィルター：^[a-z|A-Z].\*$
 
 ・英語版のウィクショナリーは以下のように設定できます。
 
-名前：英語版のウィクショナリー
-URL 前：https://en.wiktionary.org/wiki/Special:Search?search=
-URL 後：#English
-エンコード：utf-8 : Unicode (UTF-8)
-ルール:デフォルト
-フィルター：^[a-z|A-Z].\*$
+> 名前：英語版のウィクショナリー  
+> URL 前：https://en.wiktionary.org/wiki/Special:Search?search=  
+> URL 後：#English  
+> エンコード：utf-8 : Unicode (UTF-8)  
+> ルール:デフォルト  
+> フィルター：^[a-z|A-Z].\*$
 
 （注）これらの情報はサイトの仕様が変わると変更される場合があります。
 
