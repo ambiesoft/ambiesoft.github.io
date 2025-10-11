@@ -40,9 +40,9 @@ Dicregate に辞書を設定するには、メニューから「辞書」->「�
 
 名前：ウィキペディア
 
-> URL 前：https://ja.wikipedia.org/wiki/?search=
-> URL 後：
-> エンコード：utf-8 : Unicode (UTF-8)
+> URL 前：https://ja.wikipedia.org/wiki/?search=  
+> URL 後：  
+> エンコード：utf-8 : Unicode (UTF-8)  
 > ルール:デフォルト
 
 ・英語版のウィキペディアは以下のように設定できます。
