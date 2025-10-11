@@ -39,10 +39,11 @@ Dicregate に辞書を設定するには、メニューから「辞書」->「�
 ・辞書の追加 → ノーマルモードを選択肢、以下のように入力します。
 
 名前：ウィキペディア
-URL 前：https://ja.wikipedia.org/wiki/?search=
-URL 後：
-エンコード：utf-8 : Unicode (UTF-8)
-ルール:デフォルト
+
+> URL 前：https://ja.wikipedia.org/wiki/?search=
+> URL 後：
+> エンコード：utf-8 : Unicode (UTF-8)
+> ルール:デフォルト
 
 ・英語版のウィキペディアは以下のように設定できます。
 
