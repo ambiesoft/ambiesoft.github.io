@@ -24,11 +24,14 @@
         window.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
 
-            title = params.get('bookmark');
-            console.log(`title=${title}`);
-            document.title = title;
-            document.getElementById('divtitle').textContent = title;
-            document.getElementById('copyTarget').value = title;
+            const titleCand = params.get('bookmark');
+            if (titleCand) {
+                title = titleCand;
+                console.log(`title=${title}`);
+                document.title = title;
+                document.getElementById('divtitle').textContent = title;
+                document.getElementById('copyTarget').value = title;
+            }
         });
 
         // https://www.marorika.com/entry/copy-to-clipboard
