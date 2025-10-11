@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Dicregate License
-permalink: /dicregate_license/
+permalink: /dicregate/dicregate_license/
 ---
 
 ## ライセンス

@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Dicregate Help
-permalink: /dicregate_help/
+permalink: /dicregate/dicregate_help/
 ---
 
 ## 辞書の設定
