@@ -74,11 +74,11 @@ Google には特定のサイトから検索する機能があるのでそれを�
 
 ・辞書の追加 → ノーマルモードを選択肢、以下のように入力します。
 
-名前：Google 日本政府
-URL 前：http://www.google.co.jp/search?q=
-URL 後：+site%3Ago.jp
-エンコード：utf-8 : Unicode (UTF-8)
-ルール:デフォルト
+> 名前：Google 日本政府  
+> URL 前：http://www.google.co.jp/search?q=  
+> URL 後：+site%3Ago.jp  
+> エンコード：utf-8 : Unicode (UTF-8)  
+> ルール:デフォルト
 
 ## 辞書の編集（電子辞書）
 
