@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <html lang="ja">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Ambiesoft掲示板</title>
+      <style>
+        body {
+          font-family: system-ui, sans-serif;
+          margin: 1em;
+          background: #fafafa;
+          color: #333;
+        }
+        h1 {
+          font-size: 1.4em;
+          text-align: center;
+          margin-bottom: 0.5em;
+        }
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5em;
+          background: white;
+          padding: 1em;
+          border-radius: 12px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+          max-width: 500px;
+          margin: 0 auto;
+        }
+        input,
+        textarea {
+          font-size: 1em;
+          padding: 0.6em;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          width: 100%;
+          box-sizing: border-box;
+        }
+        button {
+          background: #007aff;
+          color: white;
+          font-size: 1em;
+          border: none;
+          padding: 0.7em;
+          border-radius: 8px;
+          cursor: pointer;
+        }
+        button:hover {
+          background: #0063d9;
+        }
+        #posts {
+          max-width: 500px;
+          margin: 1.5em auto;
+        }
+        .post {
+          background: white;
+          padding: 0.8em;
+          margin-bottom: 0.8em;
+          border-radius: 10px;
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+          word-break: break-word;
+        }
+        .post strong {
+          color: #007aff;
+        }
+        .post small {
+          color: #666;
+          font-size: 0.8em;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>Ambiesoft掲示板</h1>
+
+      <form id="postForm">
+        名前: <input type="text" id="name" /><br />
+        内容:<br />
+        <textarea id="message" rows="4" cols="40"></textarea><br />
+        <button type="submit">投稿</button>
+      </form>
+
+      <h2>投稿一覧</h2>
+      <div id="posts">読み込み中...</div>
+
+      <script>
+        const GAS_URL =
+          'https://script.google.com/macros/s/AKfycbwjWk-b48HhljeR33bwfZHPOpNXbGPkWc5PQ8Meb_lg4g3w9NILL96MPf3DgLnjgXen3A/exec';
+
+        // 投稿
+        document
+          .getElementById('postForm')
+          .addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const SendDATA = {
+              name: document.getElementById('name').value,
+              message: document.getElementById('message').value,
+              timestamp: new Date().toISOString(),
+            };
+
+            const postparam = {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(SendDATA),
+            };
+
+            const res = await fetch(GAS_URL, postparam);
+            console.log(res);
+            e.target.reset();
+            setTimeout(loadPosts, 1000); // 少し待ってから再読み込み
+          });
+
+        // 一覧読み込み
+        async function loadPosts() {
+          try {
+            const res = await fetch(GAS_URL + '?t=' + Date.now());
+            const posts = await res.json();
+            document.getElementById('posts').innerHTML = posts
+              .slice()
+              .reverse()
+              .map(
+                (p) =>
+                  `<div class="post">
+              <strong>${escapeHtml(p.name || '名無し')}</strong><br>
+              ${escapeHtml(p.message || '')}<br>
+              <small>${new Date(p.timestamp).toLocaleString()}</small>
+            </div>`
+              )
+              .join('');
+          } catch (e) {
+            document.getElementById('posts').innerText = '読み込みエラー';
+          }
+        }
+
+        function escapeHtml(s) {
+          return (s || '')
+            .toString()
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+        }
+
+        loadPosts();
+      </script>
+    </body>
+  </html>
+</html>
