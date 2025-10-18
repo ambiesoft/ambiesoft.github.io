@@ -7,8 +7,8 @@ Welcome to **Ambiesoft's** homepage!
 
 ## Windows Native Apps
 - [Dicregate](./dicregate/)
-- [SceneExplorer](./SceneExplorer/)
 - [magicfile](./magicfile/)
+- [SceneExplorer](./SceneExplorer/)
 - [SendToTools](./SendToTools/)
 
 ## Web apps
