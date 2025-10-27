@@ -1,212 +1,263 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <html lang="ja">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <title>Ambiesoft掲示板</title>
-      <style>
-        body {
-          font-family: system-ui, sans-serif;
-          margin: 1em;
-          background: #fafafa;
-          color: #333;
-        }
-        h1 {
-          font-size: 1.4em;
-          text-align: center;
-          margin-bottom: 0.5em;
-        }
-        h2 {
-          text-align: center;
-        }
-        form {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5em;
-          background: white;
-          padding: 1em;
-          border-radius: 12px;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-          max-width: 500px;
-          margin: 0 auto;
-        }
-        input,
-        textarea {
-          font-size: 1em;
-          padding: 0.6em;
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          width: 100%;
-          box-sizing: border-box;
-        }
-        button {
-          background: #007aff;
-          color: white;
-          font-size: 1em;
-          border: none;
-          padding: 0.7em;
-          border-radius: 8px;
-          cursor: pointer;
-        }
-        button:hover {
-          background: #0063d9;
-        }
-        /* spinner for submit button */
-        .spinner {
-          display: inline-block;
-          width: 14px;
-          height: 14px;
-          margin-left: 8px;
-          border: 2px solid rgba(255,255,255,0.6);
-          border-top-color: #fff;
-          border-radius: 50%;
-          vertical-align: middle;
-          animation: spin 0.8s linear infinite;
-          opacity: 0;
-          transition: opacity .12s;
-        }
-        button[disabled] .spinner { opacity: 1; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        /* loader for posts list */
-        .loader {
-          display: inline-block;
-          width: 18px;
-          height: 18px;
-          border: 3px solid #e0e0e0;
-          border-top-color: #007aff;
-          border-radius: 50%;
-          animation: spin 0.8s linear infinite;
-          vertical-align: middle;
-          margin-right: 8px;
-        }
-        #posts {
-          max-width: 500px;
-          margin: 1.5em auto;
-        }
-        .post {
-          background: white;
-          padding: 0.8em;
-          margin-bottom: 0.8em;
-          border-radius: 10px;
-          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-          word-break: break-word;
-        }
-        .post strong {
-          color: #007aff;
-        }
-        .post small {
-          color: #666;
-          font-size: 0.8em;
-        }
-      </style>
-    </head>
-    <body>
-      <h1>Ambiesoft掲示板</h1>
+<html lang="ja">
 
-      <form id="postForm">
-        名前: <input type="text" id="name" /><br />
-        内容:<br />
-        <textarea id="message" rows="4" cols="40"></textarea><br />
-        <button type="submit" id="submitBtn" aria-live="polite">
-          <span id="btnText">投稿</span>
-          <span id="spinner" class="spinner" aria-hidden="true"></span>
-        </button>
-      </form>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ambiesoft掲示板</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 1em;
+      background: #fafafa;
+      color: #333;
+    }
 
-      <h2>投稿一覧</h2>
-      <div id="posts" aria-live="polite"><span class="loader" aria-hidden="true"></span>読み込み中...</div>
+    /* header with right-aligned TOP link */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 500px;
+      margin: 0 auto 0.5em;
+    }
 
-      <script>
-        const GAS_URL =
-          'https://script.google.com/macros/s/AKfycbwjWk-b48HhljeR33bwfZHPOpNXbGPkWc5PQ8Meb_lg4g3w9NILL96MPf3DgLnjgXen3A/exec';
+    .page-header h1 {
+      margin: 0;
+      font-size: 1.4em;
+    }
 
-        // 投稿
-        document
-          .getElementById('postForm')
-          .addEventListener('submit', async function (e) {
-            e.preventDefault();
+    .page-header a.top-link {
+      font-size: 0.9em;
+      color: #007aff;
+      text-decoration: none;
+    }
 
-            const SendDATA = {
-              name: document.getElementById('name').value,
-              message: document.getElementById('message').value,
-              timestamp: new Date().toISOString(),
-            };
+    .page-header a.top-link:hover {
+      text-decoration: underline;
+    }
 
-            const postparam = {
-              method: 'POST',
-              mode: 'no-cors',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(SendDATA),
-            };
+    h1 {
+      font-size: 1.4em;
+      text-align: center;
+      margin-bottom: 0.5em;
+    }
 
-            // UI: 無効化して送信中表示
-            const form = e.target;
-            const submitBtn = form.querySelector('#submitBtn');
-            const btnText = document.getElementById('btnText');
-            const spinner = document.getElementById('spinner');
-            // disable inputs + change label
-            const controls = form.querySelectorAll('input, textarea, button');
-            controls.forEach((c) => (c.disabled = true));
-            btnText.textContent = '送信中…';
-            spinner.setAttribute('aria-hidden', 'false');
+    h2 {
+      text-align: center;
+    }
 
-            try {
-              await fetch(GAS_URL, postparam);
-            } catch (err) {
-              // no-cors でもエラーが発生する可能性があるが UI は復帰させる
-              console.error(err);
-            } finally {
-              e.target.reset();
-              // restore UI
-              controls.forEach((c) => (c.disabled = false));
-              btnText.textContent = '投稿';
-              spinner.setAttribute('aria-hidden', 'true');
-              setTimeout(loadPosts, 1000); // 少し待ってから再読み込み
-            }
-          });
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      background: white;
+      padding: 1em;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      margin: 0 auto;
+    }
 
-        // 一覧読み込み
-        async function loadPosts() {
-          const postsEl = document.getElementById('posts');
-          // show loading indicator while fetching
-          postsEl.innerHTML = '<span class="loader" aria-hidden="true"></span>読み込み中...';
-           try {
-             const res = await fetch(GAS_URL + '?t=' + Date.now());
-             const posts = await res.json();
-            postsEl.innerHTML = posts
-               .slice()
-               .reverse()
-               .map(
-                 (p) =>
-                   `<div class="post">
+    input,
+    textarea {
+      font-size: 1em;
+      padding: 0.6em;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #007aff;
+      color: white;
+      font-size: 1em;
+      border: none;
+      padding: 0.7em;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0063d9;
+    }
+
+    /* spinner for submit button */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      margin-left: 8px;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      border-top-color: #fff;
+      border-radius: 50%;
+      vertical-align: middle;
+      animation: spin 0.8s linear infinite;
+      opacity: 0;
+      transition: opacity .12s;
+    }
+
+    button[disabled] .spinner {
+      opacity: 1;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* loader for posts list */
+    .loader {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 3px solid #e0e0e0;
+      border-top-color: #007aff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    #posts {
+      max-width: 500px;
+      margin: 1.5em auto;
+    }
+
+    .post {
+      background: white;
+      padding: 0.8em;
+      margin-bottom: 0.8em;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+      word-break: break-word;
+    }
+
+    .post strong {
+      color: #007aff;
+    }
+
+    .post small {
+      color: #666;
+      font-size: 0.8em;
+    }
+  </style>
+</head>
+
+<body id="top">
+  <div class="page-header">
+    <h1>Ambiesoft掲示板</h1>
+    <a class="top-link" href="/" aria-label="トップに戻る">TOP</a>
+  </div>
+
+  <form id="postForm">
+    名前: <input type="text" id="name" /><br />
+    内容:<br />
+    <textarea id="message" rows="4" cols="40"></textarea><br />
+    <button type="submit" id="submitBtn" aria-live="polite">
+      <span id="btnText">投稿</span>
+      <span id="spinner" class="spinner" aria-hidden="true"></span>
+    </button>
+  </form>
+
+  <h2>投稿一覧</h2>
+  <div id="posts" aria-live="polite"><span class="loader" aria-hidden="true"></span>読み込み中...</div>
+
+  <script>
+    const GAS_URL =
+      'https://script.google.com/macros/s/AKfycbwjWk-b48HhljeR33bwfZHPOpNXbGPkWc5PQ8Meb_lg4g3w9NILL96MPf3DgLnjgXen3A/exec';
+
+    // 投稿
+    document
+      .getElementById('postForm')
+      .addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const SendDATA = {
+          name: document.getElementById('name').value,
+          message: document.getElementById('message').value,
+          timestamp: new Date().toISOString(),
+        };
+
+        const postparam = {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(SendDATA),
+        };
+
+        // UI: 無効化して送信中表示
+        const form = e.target;
+        const submitBtn = form.querySelector('#submitBtn');
+        const btnText = document.getElementById('btnText');
+        const spinner = document.getElementById('spinner');
+        // disable inputs + change label
+        const controls = form.querySelectorAll('input, textarea, button');
+        controls.forEach((c) => (c.disabled = true));
+        btnText.textContent = '送信中…';
+        spinner.setAttribute('aria-hidden', 'false');
+
+        try {
+          await fetch(GAS_URL, postparam);
+        } catch (err) {
+          // no-cors でもエラーが発生する可能性があるが UI は復帰させる
+          console.error(err);
+        } finally {
+          e.target.reset();
+          // restore UI
+          controls.forEach((c) => (c.disabled = false));
+          btnText.textContent = '投稿';
+          spinner.setAttribute('aria-hidden', 'true');
+          setTimeout(loadPosts, 1000); // 少し待ってから再読み込み
+        }
+      });
+
+    // 一覧読み込み
+    async function loadPosts() {
+      const postsEl = document.getElementById('posts');
+      // show loading indicator while fetching
+      postsEl.innerHTML = '<span class="loader" aria-hidden="true"></span>読み込み中...';
+      try {
+        const res = await fetch(GAS_URL + '?t=' + Date.now());
+        const posts = await res.json();
+        postsEl.innerHTML = posts
+          .slice()
+          .reverse()
+          .map(
+            (p) =>
+              `<div class="post">
                <strong>${escapeHtml(p.name || '名無し')}</strong><br>
                ${formatMessage(p.message || '')}<br>
                <small>${new Date(p.timestamp).toLocaleString()}</small>
              </div>`
-               )
-               .join('');
-           } catch (e) {
-            postsEl.innerText = '読み込みエラー';
-           }
-         }
- 
-        // escape HTML then convert newlines to <br>
-        function formatMessage(s) {
-          return escapeHtml(s).replace(/\r\n|\r|\n/g, '<br>');
-        }
- 
-        function escapeHtml(s) {
-           return (s || '')
-             .toString()
-             .replace(/&/g, '&amp;')
-             .replace(/</g, '&lt;')
-             .replace(/>/g, '&gt;')
-             .replace(/"/g, '&quot;');
-         }
- 
-         loadPosts();
-      </script>
-    </body>
-  </html>
+          )
+          .join('');
+      } catch (e) {
+        postsEl.innerText = '読み込みエラー';
+      }
+    }
+
+    // escape HTML then convert newlines to <br>
+    function formatMessage(s) {
+      return escapeHtml(s).replace(/\r\n|\r|\n/g, '<br>');
+    }
+
+    function escapeHtml(s) {
+      return (s || '')
+        .toString()
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    loadPosts();
+  </script>
+</body>
+
+</html>
+
 </html>
