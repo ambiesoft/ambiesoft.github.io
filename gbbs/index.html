@@ -52,6 +52,34 @@
         button:hover {
           background: #0063d9;
         }
+        /* spinner for submit button */
+        .spinner {
+          display: inline-block;
+          width: 14px;
+          height: 14px;
+          margin-left: 8px;
+          border: 2px solid rgba(255,255,255,0.6);
+          border-top-color: #fff;
+          border-radius: 50%;
+          vertical-align: middle;
+          animation: spin 0.8s linear infinite;
+          opacity: 0;
+          transition: opacity .12s;
+        }
+        button[disabled] .spinner { opacity: 1; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        /* loader for posts list */
+        .loader {
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          border: 3px solid #e0e0e0;
+          border-top-color: #007aff;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+          vertical-align: middle;
+          margin-right: 8px;
+        }
         #posts {
           max-width: 500px;
           margin: 1.5em auto;
@@ -80,11 +108,14 @@
         名前: <input type="text" id="name" /><br />
         内容:<br />
         <textarea id="message" rows="4" cols="40"></textarea><br />
-        <button type="submit">投稿</button>
+        <button type="submit" id="submitBtn" aria-live="polite">
+          <span id="btnText">投稿</span>
+          <span id="spinner" class="spinner" aria-hidden="true"></span>
+        </button>
       </form>
 
       <h2>投稿一覧</h2>
-      <div id="posts">読み込み中...</div>
+      <div id="posts" aria-live="polite"><span class="loader" aria-hidden="true"></span>読み込み中...</div>
 
       <script>
         const GAS_URL =
@@ -109,44 +140,72 @@
               body: JSON.stringify(SendDATA),
             };
 
-            const res = await fetch(GAS_URL, postparam);
-            console.log(res);
-            e.target.reset();
-            setTimeout(loadPosts, 1000); // 少し待ってから再読み込み
+            // UI: 無効化して送信中表示
+            const form = e.target;
+            const submitBtn = form.querySelector('#submitBtn');
+            const btnText = document.getElementById('btnText');
+            const spinner = document.getElementById('spinner');
+            // disable inputs + change label
+            const controls = form.querySelectorAll('input, textarea, button');
+            controls.forEach((c) => (c.disabled = true));
+            btnText.textContent = '送信中…';
+            spinner.setAttribute('aria-hidden', 'false');
+
+            try {
+              await fetch(GAS_URL, postparam);
+            } catch (err) {
+              // no-cors でもエラーが発生する可能性があるが UI は復帰させる
+              console.error(err);
+            } finally {
+              e.target.reset();
+              // restore UI
+              controls.forEach((c) => (c.disabled = false));
+              btnText.textContent = '投稿';
+              spinner.setAttribute('aria-hidden', 'true');
+              setTimeout(loadPosts, 1000); // 少し待ってから再読み込み
+            }
           });
 
         // 一覧読み込み
         async function loadPosts() {
-          try {
-            const res = await fetch(GAS_URL + '?t=' + Date.now());
-            const posts = await res.json();
-            document.getElementById('posts').innerHTML = posts
-              .slice()
-              .reverse()
-              .map(
-                (p) =>
-                  `<div class="post">
-              <strong>${escapeHtml(p.name || '名無し')}</strong><br>
-              ${escapeHtml(p.message || '')}<br>
-              <small>${new Date(p.timestamp).toLocaleString()}</small>
-            </div>`
-              )
-              .join('');
-          } catch (e) {
-            document.getElementById('posts').innerText = '読み込みエラー';
-          }
+          const postsEl = document.getElementById('posts');
+          // show loading indicator while fetching
+          postsEl.innerHTML = '<span class="loader" aria-hidden="true"></span>読み込み中...';
+           try {
+             const res = await fetch(GAS_URL + '?t=' + Date.now());
+             const posts = await res.json();
+            postsEl.innerHTML = posts
+               .slice()
+               .reverse()
+               .map(
+                 (p) =>
+                   `<div class="post">
+               <strong>${escapeHtml(p.name || '名無し')}</strong><br>
+               ${formatMessage(p.message || '')}<br>
+               <small>${new Date(p.timestamp).toLocaleString()}</small>
+             </div>`
+               )
+               .join('');
+           } catch (e) {
+            postsEl.innerText = '読み込みエラー';
+           }
+         }
+ 
+        // escape HTML then convert newlines to <br>
+        function formatMessage(s) {
+          return escapeHtml(s).replace(/\r\n|\r|\n/g, '<br>');
         }
-
+ 
         function escapeHtml(s) {
-          return (s || '')
-            .toString()
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;');
-        }
-
-        loadPosts();
+           return (s || '')
+             .toString()
+             .replace(/&/g, '&amp;')
+             .replace(/</g, '&lt;')
+             .replace(/>/g, '&gt;')
+             .replace(/"/g, '&quot;');
+         }
+ 
+         loadPosts();
       </script>
     </body>
   </html>
