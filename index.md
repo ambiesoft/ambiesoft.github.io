@@ -27,4 +27,6 @@ Welcome to **Ambiesoft's** homepage!
 
 Learn more [About me](./about.html).
 
-(https://yahoo.jp/DthKJq8)
+## 広告
+
+[サウナハット メンズ](https://yahoo.jp/DthKJq8)
