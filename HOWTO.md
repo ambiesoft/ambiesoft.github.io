@@ -1,8 +1,11 @@
-# gem install bundler
-installs bundler
+# installs bundler
 
-# bundle install
-Install from Gemfile
+gem install bundler
 
-# bundle exec jekyll serve
-Run
+# Install from Gemfile
+
+bundle install
+
+# Run
+
+bundle exec jekyll serve
