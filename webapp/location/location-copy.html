@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>クリップボードに位置情報を追加</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2em;
+      background: #f9f9f9;
+    }
+
+    button {
+      padding: 0.5em 1em;
+      font-size: 1rem;
+      margin-top: 1em;
+    }
+
+    #output,
+    #status {
+      margin-top: 1em;
+    }
+
+    #status {
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>クリップボードに位置情報を追加</h1>
+  <button onclick="addLocationToClipboard()">位置情報を追加</button>
+  <button onclick="restoreClipboard()">クリップボードをもとに戻す</button>
+  <p id="output1">まだ実行されていません。</p>
+  <p id="output2"></p>
+  <p id="output3"></p>
+  <p id="status"></p>
+
+
+  <script>
+    let origClipText = '';
+
+    function onClipError(err) {
+      console.error(err);
+      document.getElementById('status').textContent =
+        'クリップボードの操作に失敗しました。';
+    }
+    async function restoreClipboard() {
+      if (!navigator.geolocation || !navigator.clipboard) {
+        document.getElementById('status').textContent =
+          'この機能はサポートされていません。';
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(origClipText);
+      }
+      catch (err) {
+        onClipError(err);
+      }
+    }
+
+    function addLocationToClipboard() {
+      if (!navigator.geolocation || !navigator.clipboard) {
+        document.getElementById('status').textContent =
+          'この機能はサポートされていません。';
+        return;
+      }
+
+      document.getElementById(
+        'output1'
+      ).textContent = '実行中・・・';
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const lat = position.coords.latitude.toFixed(6);
+          const lng = position.coords.longitude.toFixed(6);
+          const mapLink = `https://www.google.com/maps?q=${lat},${lng}`;
+          const positionText = `${lat}-${lng}`;
+          try {
+            const currentText = await navigator.clipboard.readText();
+            if (!origClipText) {
+              origClipText = currentText;
+            }
+
+            const newText = `${currentText}_${positionText}`;
+            await navigator.clipboard.writeText(newText);
+
+            document.getElementById(
+              'output1'
+            ).textContent = `追加した位置情報:\n${positionText}`;
+            document.getElementById(
+              'output2'
+            ).textContent = `クリップボードの結果:\n${newText}`;
+            document.getElementById(
+              'output3'
+            ).innerHTML = `リンク:\n<a href="${mapLink}" target="_blank">${mapLink}</a>`;
+
+            document.getElementById('status').textContent =
+              'クリップボードに位置情報を追加しました！';
+          } catch (err) {
+            onClipError(err);
+          }
+        },
+        (err) => {
+          console.error(err);
+          document.getElementById('status').textContent =
+            '位置情報の取得に失敗しました。';
+        }
+      );
+    }
+  </script>
+</body>
+
+</html>

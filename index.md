@@ -17,6 +17,7 @@ Welcome to **Ambiesoft's** homepage!
 - [EverydayTask](./everydaytask/)
 - [kaimonoikura](./kaimonoikura/)
 - [haitatus](./haitatsu/)
+- [location](./webapp/location/)
 
 ## 掲示板
 
