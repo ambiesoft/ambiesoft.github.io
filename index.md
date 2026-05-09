@@ -10,7 +10,7 @@ Welcome to **Ambiesoft's** homepage!
 - [Dicregate](./dicregate/)
 - [magicfile](./magicfile/)
 - [SceneExplorer](./SceneExplorer/)
-- [SendToTools](./SendToTools/)
+- [SendToTools](https://ambiesoft.github.io/webjumper/?target=sendtotools)
 
 ## Web apps
 
