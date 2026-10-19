@@ -1,1 +1,26 @@
-mmmmm
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>マルエツ キャンペーンページ</title>
+</head>
+<body>
+    <p id="message">キャンペーンページへ移動しています...</p>
+
+    <script>
+        const today = new Date();
+
+        const year = String(today.getFullYear()).slice(-2);
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+
+        const url =
+            `https://www.maruetsu.co.jp/app/app_cam${year}${month}.php`;
+
+        document.getElementById('message').innerHTML =
+            `移動先：<a href="${url}">${url}</a>`;
+
+        window.location.replace(url);
+    </script>
+</body>
+</html>
